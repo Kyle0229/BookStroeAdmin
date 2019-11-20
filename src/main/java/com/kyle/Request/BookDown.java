@@ -6,7 +6,6 @@ import com.kyle.domain.Catalog;
 import lombok.Data;
 
 
-
 @Data
 public class BookDown {
     Book book;
