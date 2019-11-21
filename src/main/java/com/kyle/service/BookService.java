@@ -39,4 +39,6 @@ public interface BookService {
 //    Paid findCollect(Integer uid, Integer bid);
 //
 //    BookStore findBookStore(Integer uid, Integer bid);
+
+    List<Book> findNoAudit();
 }

@@ -136,13 +136,17 @@ public class BookServiceImpl implements BookService {
 //
     @Override
     public List<Book> findBookAll() {
-        Object findBookAll = redisTemplate.opsForValue().get("findBookAll");
-        if (findBookAll!=null){
-            return (List<Book>)findBookAll;
-        }
+
+
         List<Book> all = bookRepository.findAll();
-        redisTemplate.opsForValue().set("findBookAll",all,3,TimeUnit.HOURS);
+
         return all;
+    }
+
+    @Override
+    public List<Book> findNoAudit() {
+        List<Book> noAudit = bookMapper.findNoAudit();
+        return noAudit;
     }
 //
 //    @Override

@@ -12,6 +12,7 @@
     <result column="btickets" property="btickets" jdbcType="INTEGER" />
     <result column="bpic" property="bpic" jdbcType="VARCHAR" />
     <result column="bprice" property="bprice" jdbcType="DECIMAL" />
+    <result column="bstatus" property="bstatus"  />
   </resultMap>
   <sql id="Base_Column_List" >
     bid, cid, aid, bname, introduce, nummoney, scount, bpic, bprice,btickets
@@ -186,5 +187,9 @@
 
   <select id="findSelectionId" resultType="com.kyle.domain.Selection">
     select sid,bid from selection order by sid desc
+  </select>
+  
+  <select id="findNoAudit" resultType="com.kyle.domain.Book">
+    select <include refid="Base_Column_List" /> from book where bstatus=0
   </select>
 </mapper>

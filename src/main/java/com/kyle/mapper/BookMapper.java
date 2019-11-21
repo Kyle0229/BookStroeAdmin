@@ -37,4 +37,6 @@ public interface BookMapper {
 
     List<Book> findRomantic();
     List<Book> findMan();
+
+    List<Book> findNoAudit();
 }

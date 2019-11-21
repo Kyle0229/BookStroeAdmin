@@ -95,7 +95,6 @@ public class BookController {
         Integer bid = book.getBid();
         System.out.println(bid);
         Optional<Selection> byId = selectionRepository.findByBid(bid);
-
         System.out.println(byId.isPresent());
         if (byId.isPresent()){
             return "error";
@@ -127,5 +126,53 @@ public class BookController {
         Integer sid1 = sid.getSid();
         selectionRepository.deleteById(sid1);
         return "成功取消";
+    }
+
+    @RequestMapping("/findNoAudit")
+    public List<BookDown> findNoAudit(){
+        List<BookDown> bookDownList=new ArrayList<>();
+        List<Book> all = bookService.findNoAudit();
+        for (Book list:all){
+            Integer bid = list.getBid();
+            Integer aid = list.getAid();
+            Integer cid = list.getCid();
+            String bname = list.getBname();
+            BigDecimal bprice = list.getBprice();
+            String bpic = list.getBpic();
+            Author bookAuthor = bookService.findBookAuthor(aid);
+            String aname = bookAuthor.getAname();
+            String aphone = bookAuthor.getAphone();
+            String catalog = bookService.findBookCatalog(cid);
+            BookDown bookDown = new BookDown();
+            Book book=new Book();
+            Author author=new Author();
+            Catalog catalog1=new Catalog();
+            book.setBid(bid);
+            book.setBpic(bpic);
+            book.setBprice(bprice);
+            book.setBname(bname);
+            bookDown.setBook(book);
+            author.setAname(aname);
+            author.setAphone(aphone);
+            catalog1.setCname(catalog);
+            bookDown.setAuthor(author);
+            bookDown.setCatalog(catalog1);
+            bookDownList.add(bookDown);
+
+        }
+        return bookDownList;
+    }
+
+    @RequestMapping("/pass")
+    public String pass(@RequestBody Book book){
+        Integer bid = book.getBid();
+        Optional<Book> byId = bookRepository.findById(bid);
+        if (byId!=null){
+
+            byId.get().setBstatus(1);
+            bookRepository.saveAndFlush(byId.get());
+            return "通过";
+        }
+        return "不通过";
     }
 }
